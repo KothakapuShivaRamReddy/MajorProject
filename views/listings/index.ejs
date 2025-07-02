@@ -1,15 +1,10 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Wanderlust</title>
-</head>
+<!-- template -->
+<% layout("/layouts/boilerplate.ejs") %> 
 <body>
     <h3>All listings</h3>
-    <form method="GET" action="/listings/new">
+    <!-- <form method="GET" action="/listings/new">
       <button>Create New Listing</button>
-    </form>
+    </form> -->
      <ul>
       <% for(let listing of allListings) { %>
         <!-- To view the listings -->
@@ -18,4 +13,3 @@
       
     </ul>
 </body>
-</html>
