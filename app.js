@@ -11,9 +11,23 @@ const { listingSchema }=require("./Schema.js");
 //ROutes accessing
 const listingRouter=require("./routes/listing.js")
 const userRouter=require("./routes/user.js")
+const localstrategy=require("passport-local");
+const passport=require("passport");
+const user=require("./models/user.js");
+const session = require("express-session"); 
+const flash = require("connect-flash"); 
+const { Session } = require("inspector");
+const dotenv=require("dotenv");
+dotenv.config()
+app.use(session({
+    secret: "mySecretKey",   // replace with env var in production
+    resave: false,
+    saveUninitialized: true,
+}));
 
 
-const MONGO_URL="mongodb://127.0.0.1:27017/wanderlust";
+
+const MONGO_URL=process.env.MONGO_URI;
 main().then(()=>{
     console.log("connected to server");
 })
@@ -26,6 +40,13 @@ app.use(express.urlencoded({extended: true})); //the data req should be parse
 app.use(methodOverride("_method"));
 app.engine("ejs",ejsMate);
 app.use(express.static(path.join(__dirname,"/public")));
+  
+app.use(flash());
+app.use(passport.initialize());
+app.use(passport.session());
+passport.use(new localstrategy(user.authenticate()));
+passport.serializeUser(user.serializeUser());
+passport.deserializeUser(user.deserializeUser());
 
 
 async function main(){
@@ -43,6 +64,11 @@ const validation=(req,res,next)=>{
 
     }
 }
+app.use((req,res,next)=>{
+    res.locals.Success=req.flash("success")
+    next();
+})
+
 app.use("/listings",listingRouter);
 app.use("/",userRouter);
 
@@ -119,6 +145,7 @@ app.use("/",userRouter);
 app.use((err,req,res,next)=>{
     let {statusCode=500,message="something went wrong!"}=err;
     res.status(statusCode).render("Error.ejs",{message});
+    next();
 });
 
 
@@ -128,10 +155,11 @@ app.get("/",(req,res)=>{
     res.send("Hi,I am Root");
 });
 
+app.use((req, res, next) => {
+    res.status(404).render("Error.ejs", { message: "Page Not Found!" });
+});
+
 app.listen(8080,()=>{
     console.log("server is started");
 });
 // This runs for all unmatched routes
-app.use((req, res, next) => {
-    res.status(404).render("Error.ejs", { message: "Page Not Found!" });
-});
