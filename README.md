@@ -1,6 +1,6 @@
-# WanderLust - Travel Listing Platform
+# Airbnb Clone
 
-WanderLust is a full-stack web application that allows users to explore, create, edit, and manage travel property listings. The project is built using Node.js, Express.js, MongoDB, EJS, and Passport.js for authentication.
+Airbnb Clone is a full-stack web application that allows users to explore, create, edit, and manage travel property listings. The project is built using Node.js, Express.js, MongoDB, EJS, and Passport.js for authentication.
 
 ## Features
 
