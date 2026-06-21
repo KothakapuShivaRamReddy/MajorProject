@@ -66,15 +66,10 @@ MajorProject
 
 ### Clone the Repository
 
-```bash
-git clone <your-github-repository-link>
-cd MajorProject
-```
-
 ### Install Dependencies
 
 ```bash
-npm install
+node app.js
 ```
 
 ### Configure Environment Variables
@@ -89,12 +84,6 @@ MONGO_URI=your_mongodb_connection_string
 
 ```bash
 node app.js
-```
-
-or
-
-```bash
-npm start
 ```
 
 ### Open in Browser
